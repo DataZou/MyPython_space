@@ -51,7 +51,7 @@ for line in fhi.readlines():
 	else:
 		if ave_score > 0 and repNum >= 6: #only interested in entries with ave_score lager than 0
 			score = ave_score - tetrad_score[entry] - parameter[str(repNum)]
-			if tetrad_num > 0:
+			if tetrad_num[entry] > 0:
 				if score/repNum >= 48:
 					print >>fho,"> %s %.2f %d" % (entry,ave_score,repNum)
 					print >>fho,output[entry]
