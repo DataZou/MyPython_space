@@ -8,6 +8,7 @@ Time:2015-03-13
 '''
 import sys
 
+#read the parameters from parameters.txt to get addition score for each repNum 
 parameter = {}
 fhi = open("parameters.txt")
 for line in fhi:
@@ -23,18 +24,19 @@ for line in fhi:
 		break
 fhi.close()
 
+#deal with result file of wdsp
 tetrad_num = {}
 tetrad_score = {}
 output = {}
 entry = ''
-ave_score = 0.0
+ave_score = 0.0 #the total average score at ">" line
 repNum = 0
-fhi = open(sys.argv[1])
-fho = open("WD40s_6_48.out",'w')
+fhi = open(sys.argv[1]) #input wdsp result file
+fho = open("WD40s_6_48.out",'w') #output file (change to your own)
 for line in fhi.readlines():
 	words = line.split()
 	if line[0]==">":
-		if len(words)==4:
+		if len(words)==4:  #only interested in entries that have beta sheet
 			entry = words[1]
 			ave_score = float(words[2])
 			repNum = int(words[3])
@@ -47,7 +49,7 @@ for line in fhi.readlines():
 		if float(words[-1]) >= 28.0:
 			tetrad_num[entry] += 1
 	else:
-		if ave_score > 0 and repNum >= 6:
+		if ave_score > 0 and repNum >= 6: #only interested in entries with ave_score lager than 0
 			score = ave_score - tetrad_score[entry] - parameter[str(repNum)]
 			if tetrad_num > 0:
 				if score/repNum >= 48:
