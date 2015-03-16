@@ -53,14 +53,14 @@ for line in fhi.readlines():
 			score = ave_score - tetrad_score[entry] - parameter[str(repNum)]
 			if tetrad_num[entry] > 0:
 				if score/repNum >= 48:
-					print >>fho,"> %s %.2f %d" % (entry,ave_score,repNum)
+					print >>fho,"> %s %.2f %d %d" % (entry,ave_score,repNum,tetrad_num[entry])
 					print >>fho,output[entry]
 					entry = ''
 					ave_score = 0.0
 					repNum = 0
 			else:
 				if score/repNum >= 60:
-					print >>fho,"> %s %.2f %d" % (entry,ave_score,repNum)
+					print >>fho,"> %s %.2f %d %d" % (entry,ave_score,repNum,tetrad_num[entry])
 					print >>fho,output[entry]
 					entry = ''
 					ave_score = 0.0
