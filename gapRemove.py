@@ -38,6 +38,8 @@ ndarrT = ndarr.T #transpose the 2d array
 
 print "Number of sequence input: %d" % (ndarr.shape[0])
 print "Alignment sequence length: %d" % (ndarr.shape[1]-1)
+cutoff = int(math.floor(ndarrT.shape[1]*0.8))
+print "Alignment sites that with more than 80%%(%d) gaps will be removed" % (cutoff)
 print "Processing ..."
 
 removeArr = []
@@ -46,7 +48,7 @@ gapSta = np.zeros(ndarrT.shape[0]-1)
 for i in range(1,ndarrT.shape[0]):
 	arr = ndarrT[i,]
 	#gapSta[i-1] = len(arr[arr=="-"])
-	if len(arr[arr=="-"]) >= 1200: #change this number according to your seqs
+	if len(arr[arr=="-"]) >= cutoff: #change this number according to your seqs
 		removeArr.append(i)
 ndarrT = np.delete(ndarrT,removeArr,0)
 #print "The minimum gap:",gapSta.min()
