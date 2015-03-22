@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 '''
 Desc:This scripts process multiple alignment file by clustalw
-Desc: and removes some sites which have too many gaps.
+Desc: and removes some sites which have too many(70%) gaps.
 Usage: python gapRemove.py input.aln output.aln
 Coder:Xu-Dong Zou
 Time: 2015-03-12
@@ -15,6 +15,7 @@ fh = open(sys.argv[1]) # input a alignment file of clustalw format: xx.aln
 head1 = fh.readline()
 fh.readline()
 fh.readline()
+originalOrd = []
 
 msa = {} #define a dictionary to store each seq in multiple seqs alignment
 for line in fh.readlines():
@@ -23,12 +24,13 @@ for line in fh.readlines():
 		uid,seq = line.split()
 		if uid not in msa:
 			msa[uid] = seq
+			originalOrd.append(uid)
 		else:
 			msa[uid] += seq
 fh.close()
 
 arr2d = [] #a two dimension array to store the msa,first dim represents a seqs
-for k in msa:
+for k in originalOrd:
 	arr = list(msa[k]) # transform a seq(a string) into a list
 	arr.insert(0,k) #insert the seq id into the start of the list
 	arr2d.append(arr) # build a list of list 
@@ -38,8 +40,8 @@ ndarrT = ndarr.T #transpose the 2d array
 
 print "Number of sequence input: %d" % (ndarr.shape[0])
 print "Alignment sequence length: %d" % (ndarr.shape[1]-1)
-cutoff = int(math.floor(ndarrT.shape[1]*0.8))
-print "Alignment sites that with more than 80%%(%d) gaps will be removed" % (cutoff)
+cutoff = int(math.floor(ndarrT.shape[1]*0.7))
+print "Alignment sites that with more than 70%%(%d) gaps will be removed" % (cutoff)
 print "Processing ..."
 
 removeArr = []
