@@ -26,7 +26,10 @@ for line in fh.readlines():
 fh.close()
 
 for k in originalOrd:   #add sequence ID to each sequence
-	msa[k] = k[0:10] + msa[k]
+	if len(k)>=10:
+		msa[k] = k[0:10] + msa[k]
+	else:
+		msa[k] = k + ' '*(10-len(k)) + msa[k]
 
 def splitByWidth(string,width):
 	return [string[x:x+width] for x in range(0,len(string),width)]
